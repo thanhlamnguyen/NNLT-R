@@ -1,29 +1,95 @@
-answer = 0
-for (j in 3:5){answer = j+answer}
-answer
-prod(3:5)
-answer_1 = 0
-for (i in 1:100){answer_1=answer_1+i}
-answer_1
-sum(1:100)
+setwd("F:/R")
+Veg <- read.table(file="Vegetation2.txt", header=TRUE)
+str(Veg)
+plot(Veg$BARESOIL,Veg$R)
+plot(Veg$R, Veg$BARESOIL)
+plot(x=Veg$BARESOIL, y=Veg$R)
+plot(R~BARESOIL, data = Veg)
+plot(x=Veg$BARESOIL, #bi???n x
+     y=Veg$R, #bi???n y
+     xlab="Exposed soil",  #tiêu d??? c???a x
+     ylab = "Species richness", #tiêu d??? c???a y
+     main="Scatter plot", #tiêu d??? c???a d??? th???
+     xlim=c(0,45), #kho???ng giá tr??? c???a x 0-45
+     ylim=c(4,19))
+plot(x=Veg$BARESOIL, #bi???n x
+     y=Veg$R, #bi???n y
+     xlab="Exposed soil",  #tiêu d??? c???a x
+     ylab = "Species richness", #tiêu d??? c???a y
+     main="Scatter plot", #tiêu d??? c???a d??? th???
+     xlim=c(min(Veg$BARESOIL), max(Veg$BARESOIL)), #kho???ng giá tr??? c???a x 0-45
+     ylim=c(min(Veg$R), max(Veg$R))) #Kho???ng giá tr??? c???a y
+plot(x=Veg$BARESOIL, #bi???n x
+     y=Veg$R, #bi???n y
+     xlab="Exposed soil",  #tiêu d??? c???a x
+     ylab = "Species richness", #tiêu d??? c???a y
+     main="Scatter plot", #tiêu d??? c???a d??? th???
+     xlim=c(min(Veg$BARESOIL), max(Veg$BARESOIL)), #kho???ng giá tr??? c???a x 0-45
+     ylim=c(min(Veg$R), max(Veg$R)), pch=8) #Kho???ng giá tr??? c???a y
+#m???c d???nh: bi???u tu???ng - pch=1 - hình tròn
+#pch=2: hình tam giác
 
-answer_2 = 1
-for (i in 1:50){answer_2=answer_2*i}
-answer_2
 
-prod(1:50)
-
-r = c(3:20)
-v= 4*(r**3)*pi/3
-answer_3 = data.frame(radius = r,volume = v)
-answer_3
-
-a = sapply(answer_3, is.factor)
-a
-factor()
+Veg$Transect
+plot(x=Veg$BARESOIL, #bi???n x
+     y=Veg$R, #bi???n y
+     xlab="Exposed soil",  #tiêu d??? c???a x
+     ylab = "Species richness", #tiêu d??? c???a y
+     main="Scatter plot", #tiêu d??? c???a d??? th???
+     xlim=c(min(Veg$BARESOIL), max(Veg$BARESOIL)), #kho???ng giá tr??? c???a x 0-45
+     ylim=c(min(Veg$R), max(Veg$R)), pch=Veg$Transect) #Kho???ng giá tr??? c???a y
 
 
+  Veg$Time
+#N???u <=1980 thì cho bi???u tu???ng pch=1
+#N???u >1980 thì cho bi???u tu???ng pch =10
+TimeGroup <-Veg$Time
+TimeGroup[Veg$Time<=1980] <- 1
+TimeGroup[Veg$Time>1980] <- 10
+plot(x=Veg$BARESOIL, #bi???n x
+     y=Veg$R, #bi???n y
+     xlab="Exposed soil",  #tiêu d??? c???a x
+     ylab = "Species richness", #tiêu d??? c???a y
+     main="Scatter plot", #tiêu d??? c???a d??? th???
+     xlim=c(min(Veg$BARESOIL), max(Veg$BARESOIL)), #kho???ng giá tr??? c???a x 0-45
+     ylim=c(min(Veg$R), max(Veg$R)), pch=TimeGroup) #Kho???ng giá tr??? c???a y
 
-sapply(tinting, is.factor)
-sapply(tinting[, 4:6], levels)
-sapply(tinting[, 4:6], is.ordered)
+
+
+
+plot(x=Veg$BARESOIL, #bi???n x
+     y=Veg$R, #bi???n y
+     xlab="Exposed soil",  #tiêu d??? c???a x
+     ylab = "Species richness", #tiêu d??? c???a y
+     main="Scatter plot", #tiêu d??? c???a d??? th???
+     xlim=c(min(Veg$BARESOIL), max(Veg$BARESOIL)), #kho???ng giá tr??? c???a x 0-45
+     ylim=c(min(Veg$R), max(Veg$R)), pch=TimeGroup, col=3) #Kho???ng giá tr??? c???a y
+
+
+#tham s???: col: color: 1- black
+#2 - red
+#3 - green
+
+
+x<- 1:8
+plot(x, col=x)
+
+
+#di???u ch???nh kích thu???c c???a symbols
+CexSize <-Veg$Time
+CexSize[Veg$Time<=1980] <- 1
+CexSize[Veg$Time>1980] <- 2
+plot(x=Veg$BARESOIL, #bi???n x
+     y=Veg$R, #bi???n y
+     xlab="Exposed soil",  #tiêu d??? c???a x
+     ylab = "Species richness", #tiêu d??? c???a y
+     main="Scatter plot", #tiêu d??? c???a d??? th???
+     xlim=c(min(Veg$BARESOIL), max(Veg$BARESOIL)), #kho???ng giá tr??? c???a x 0-45
+     ylim=c(min(Veg$R), 
+            max(Veg$R)), 
+     pch=TimeGroup, 
+     col=1,
+     cex=CexSize) #Kho???ng giá tr??? c???a y
+veg1 <- loess(R~BARESOIL, data=Veg)
+fit <- fitted(veg1)
+lines(Veg$BARESOIL, fit)
